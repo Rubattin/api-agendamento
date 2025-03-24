@@ -41,17 +41,17 @@ public class ConsultaService {
         LocalDate data = LocalDate.parse(consulta.getData(), formatoData);
         LocalTime hora = LocalTime.parse(consulta.getHora(), formatoHora);
     
-        // 🔹 Regra 1: A data não pode estar no passado
+        // data passada
         if (data.isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("Não é possível agendar consultas para datas passadas.");
         }
     
-        // 🔹 Regra 2: O horário deve ser entre 08:00 e 18:00
+        // horario comercial
         if (hora.isBefore(LocalTime.of(8, 0)) || hora.isAfter(LocalTime.of(18, 0))) {
             throw new IllegalArgumentException("O horário da consulta deve estar entre 08:00 e 18:00.");
         }
     
-        // 🔹 Regra 3: O médico não pode ter outra consulta no mesmo horário
+        // validação das consultas
         List<Consulta> consultasMedico = consultaRepository.findAll();
         for (Consulta c : consultasMedico) {
             if (c.getMedico().getId().equals(consulta.getMedico().getId()) &&
@@ -60,7 +60,7 @@ public class ConsultaService {
             }
         }
     
-        // 🔹 Regra 4: O paciente não pode ter outra consulta no mesmo horário
+        // validação dos clientes
         for (Consulta c : consultasMedico) {
             if (c.getPaciente().getId().equals(consulta.getPaciente().getId()) &&
                 c.getData().equals(consulta.getData()) && c.getHora().equals(consulta.getHora())) {

@@ -24,12 +24,12 @@ public class Consulta {
     private Paciente paciente;
 
     @Column(nullable = false)
-    private String data; // Formato: "10/04/2025"
+    private String data;
 
     @Column(nullable = false)
-    private String hora; // Formato: "15:00"
+    private String hora;
 
     @Column(nullable = false)
-    private String status; // agendada, cancelada, realizada
+    private String status;
 }
 
